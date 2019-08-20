@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function LoginForm() {
+function LoginForm(props) {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
 
     const handleChange = e => {
@@ -18,10 +18,11 @@ function LoginForm() {
             .post('http://localhost:5000/api/login', credentials)
             .then(res => {
                 localStorage.setItem('token', res.data.payload)
+                props.history.push('/friends');
                 console.log(credentials)
             })
             .catch(err => {
-                console.log(credentials)
+                // console.log(credentials)
                 console.log('Error while logging in', err.response)
             })
 
