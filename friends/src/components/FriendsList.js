@@ -1,31 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth.js';
+import Friend from './Friend.js';
 
-class FriendsList extends React.Component {
-    
+function FriendsList() {
 
-    componentDidMount() {
-        this.getData();
-    }
+    const [friends, setFriends] = useState([]);
 
-    getData = () => {
+    useEffect(() => {
         axiosWithAuth()
-            .post('http://localhost:5000/api/friends')
-            .then(res => {
-                console.log(res.data)
-            })
-            .catch(err => {
-                console.log('Error loading friends: ', err.response);
-            })
-    };
+        .post('http://localhost:5000/api/friends')
+        .then(res => {
+            console.log(res.data);
+            setFriends(res.data);
+        })
+        .catch(err => {
+            console.log('Error loading friends: ', err.response);
+        })
+    }, [])
 
-    render() {
-        return (
-            <>
-                <h1>Friends List</h1>
-            </>
-        );
-    }
+    return (
+        <div>
+            <h1>Friends List</h1>
+            {friends && friends.map(friend => 
+                <Friend friend={friend} />
+            )}
+        </div>
+    );
+    
 
 };
 
