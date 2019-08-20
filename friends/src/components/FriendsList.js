@@ -22,7 +22,7 @@ function FriendsList() {
         <div>
             <h1>Friends List</h1>
             {friends && friends.map(friend => 
-                <Friend friend={friend} />
+                <Friend key={friend.id} friend={friend} />
             )}
         </div>
     );
